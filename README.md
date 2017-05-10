@@ -70,13 +70,7 @@ model.add(Conv2D(64, (3,3), activation="relu"))
 model.add(Conv2D(64, (3,3), activation="relu"))
 ```
 
-#### 2. Attempts to reduce overfitting in the model
-
-The model contains dropout layers in order to reduce overfitting (model.py lines 21). 
-
-The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
-
-#### 3. Model parameter tuning
+#### 2. Model parameter tuning
 
 The model used an adam optimizer, so the learning rate was not tuned manually.
 
@@ -84,7 +78,7 @@ The model used an adam optimizer, so the learning rate was not tuned manually.
 model.compile(loss='mse', optimizer='adam',  metrics=['accuracy'])
 ```
 
-#### 4. Appropriate training data
+#### 3. Appropriate training data
 
 Training data was chosen to keep the vehicle driving on the road. I used a combination of data:
 
@@ -104,7 +98,7 @@ After above all data collection, the total number of data could reach to about 1
 
 For details about how I created the training data, see the next section. 
 
-### 5. Model Architecture and Training Strategy
+### Detail of Model Architecture and Training Strategy
 
 #### 1. Data collecting Approach
 
@@ -167,7 +161,7 @@ Here is a visualization of the architecture:
 
 ![alt text][image1]
 
-#### 4.Generators
+#### 4. Generators
 
 The images captured in the car simulator are much larger than the images encountered in the Traffic Sign Classifier Project, a size of 160 x 320 x 3 compared to 32 x 32 x 3. Storing 10,000 traffic sign images would take about 30 MB but storing 10,000 simulator images would take over 1.5 GB. That's a lot of memory! Not to mention that preprocessing data can change data types from an int to a float, which can increase the size of the data by a factor of 4.
 
