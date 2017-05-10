@@ -21,7 +21,7 @@ The goals / steps of this project are the following:
 [image3]: ./examples/left.jpg "left Image"
 [image4]: ./examples/right.jpg "right Image"
 [image5]: ./examples/screenshot.png "data in excel"
-[image6]: ./examples/placeholder_small.png "Normal Image"
+[image6]: ./examples/splitdata.png "split data"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
 ## Rubric Points
@@ -157,6 +157,10 @@ The network consists of 9 layers, including a normalization layer, 5 convolution
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. Training dataset is 90% of total dataset, and validation dataset is 10% of total dataset.
 
+Here is a visualization of the data split:
+
+![alt split][image6]
+
 Here is a visualization of the architecture:
 
 ![alt text][image1]
@@ -208,12 +212,7 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 ![alt text][image4]
 ![alt text][image5]
 
-Then I repeated this process on track two in order to get more data points.
 
-To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
-
-![alt text][image6]
-![alt text][image7]
 
 
 
