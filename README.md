@@ -23,7 +23,7 @@ The goals / steps of this project are the following:
 [image5]: ./examples/screenshot.png "data in excel"
 [image6]: ./examples/splitdata.png "split data"
 [image7]: ./examples/figure_1.png "figure_1 "
-[image8]: ./examples/run11.gif "run1 "
+[image8]: ./examples/run13.gif "run1 "
 [image9]: ./examples/run12.gif "run2 "
 
 ## Rubric Points
@@ -212,9 +212,11 @@ Here is a visualization of the testing:
 
 ![alt run2][image9]
 
+### Future work
 
-
-
+1. collect track 2 data for more scene training.
+2. Looking into even a smaller working architecture and making shorter code.
+3. train for track 2 demo.
 
 
 
