@@ -192,11 +192,10 @@ model.add(Conv2D(48, (5,5), strides=(2,2), activation="relu"))
 model.add(Conv2D(64, (3,3), activation="relu"))
 model.add(Conv2D(64, (3,3), activation="relu"))
 
-#model.add(Dropout(0.3))
-
 model.add(Flatten())
 #model.add(Dense(1164))
 model.add(Dense(100))
+model.add(Dropout(0.3))
 model.add(Dense(50))
 model.add(Dense(10))
 model.add(Dense(1))
