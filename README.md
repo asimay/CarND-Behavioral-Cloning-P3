@@ -22,7 +22,9 @@ The goals / steps of this project are the following:
 [image4]: ./examples/right.jpg "right Image"
 [image5]: ./examples/screenshot.png "data in excel"
 [image6]: ./examples/splitdata.png "split data"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image7]: ./examples/figure_1.png "figure_1 "
+[image8]: ./examples/run11.gif "run1 "
+[image9]: ./examples/run12.gif "run2 "
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -200,17 +202,17 @@ The final step was to run the simulator to see how well the car was driving arou
 
 At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
-![alt text][image2]
+Here is a visualization of the Loss:
 
-![alt text][image2]
+![alt figure_1][image7]
 
-![alt text][image2]
+Here is a visualization of the testing:
 
-:
+![alt run1][image8]
 
-![alt text][image3]
-![alt text][image4]
-![alt text][image5]
+![alt run2][image9]
+
+
 
 
 
