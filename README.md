@@ -16,10 +16,10 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/model.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
+[image1]: ./examples/module.png "Model Visualization"
+[image2]: ./examples/center.jpg  "center img"
+[image3]: ./examples/left.jpg "left Image"
+[image4]: ./examples/right.jpg "right Image"
 [image5]: ./examples/placeholder_small.png "Recovery Image"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
@@ -49,6 +49,7 @@ python drive.py model.h5
 The model.py file contains the code for training and saving the convolution neural network. The file shows the pipeline I used for training and validating the model, and it contains comments to explain how the code works.
 
 Nvidia's End to End Learning for Self-Driving Cars architecture was implemented in Keras, this architecture is also known as pilotNet.
+
 ![alt text][image1]
 
 
@@ -78,19 +79,37 @@ The model contains dropout layers in order to reduce overfitting (model.py lines
 
 The model was trained and validated on different data sets to ensure that the model was not overfitting (code line 10-16). The model was tested by running it through the simulator and ensuring that the vehicle could stay on the track.
 
-####3. Model parameter tuning
+#### 3. Model parameter tuning
 
-The model used an adam optimizer, so the learning rate was not tuned manually (model.py line 25).
+The model used an adam optimizer, so the learning rate was not tuned manually.
 
-####4. Appropriate training data
+```sh
+model.compile(loss='mse', optimizer='adam',  metrics=['accuracy'])
+```
 
-Training data was chosen to keep the vehicle driving on the road. I used a combination of center lane driving, recovering from the left and right sides of the road ... 
+#### 4. Appropriate training data
+
+Training data was chosen to keep the vehicle driving on the road. I used a combination of data:
+
+1. images from udacity dataset. (data total number is :8000)
+
+2. 2 more laps of clock orientation's data, collected by myself used keyboard.
+
+3. 1 laps of counter-clock orientation's data.
+
+4. recovery data from side ways to center of road.
+
+Data collection example:
+
+![center][image2]  ![left][image3]  ![alt right][image4]
+
+After above all data collection, the total number of data could reach to about 14000. These data don't include augmented data.
 
 For details about how I created the training data, see the next section. 
 
-###Model Architecture and Training Strategy
+### Model Architecture and Training Strategy
 
-####1. Solution Design Approach
+#### 1. Solution Design Approach
 
 The overall strategy for deriving a model architecture was to ...
 
