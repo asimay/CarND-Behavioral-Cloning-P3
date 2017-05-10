@@ -25,6 +25,7 @@ The goals / steps of this project are the following:
 [image7]: ./examples/figure_1.png "figure_1 "
 [image8]: ./examples/run13.gif "run1 "
 [image9]: ./examples/run12.gif "run2 "
+[image10]: ./examples/preprocess.png "preprocess.png "
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -155,6 +156,13 @@ correction = 0.2 # this is a parameter to tune
 steering_left = steering_center + correction
 steering_right = steering_center - correction
 ```
+
+7. preprocess explore.
+
+Image preprocess should be employed for the track 2 testing demo . Track 1 demo is not necessary. this is placeholder for future work.
+
+![alt text][image10]
+
 
 #### 3. Network Model
 
