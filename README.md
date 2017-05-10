@@ -208,7 +208,7 @@ Use the training model that was saved in model.h5. Make sure the feeding images 
 To run test: 
 
 ```
-python drive.py model.json
+python drive.py model.h5
 ```
 
 The final step was to run the simulator to see how well the car was driving around track one. 
