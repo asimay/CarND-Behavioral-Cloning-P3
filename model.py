@@ -32,11 +32,13 @@ print("length of valid_samples is: {}, percent={}".format(len(valid_samples), le
 print()
 print('Start to handling image...')
 
+# process image, from BGR to RGB
 def process_image(image_path):
     img = cv2.imread(image_path)
     image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     return image
     
+# process all image path
 def process_files(file_lines):
     images = []
     measurements = []
@@ -87,12 +89,14 @@ print('length of X_valid:', len(X_valid))
 
 image_shape = (160, 320, 3)
 
+# show steering angles histogram
 def histogram(values, bins):
     plt.hist(values, bins=bins)
     plt.grid()
     plt.title("Histogram of unmodified steering angles")
     plt.show()
     
+# data augmentation, for brightness
 def augment_brightness(img):
     img = cv2.cvtColor(img, cv2.COLOR_RGB2HSV)
     augment = .25+np.random.uniform(low=0.0, high=1.0)
@@ -100,7 +104,7 @@ def augment_brightness(img):
     img = cv2.cvtColor(img, cv2.COLOR_HSV2RGB)
     return img
           
-  
+# data augmentation flow, flip data.
 def image_augmentation_flow(img, angle):
     img = augment_brightness(img)
     img = np.array(img)
@@ -109,7 +113,7 @@ def image_augmentation_flow(img, angle):
         angle = -angle
     return img, angle
 
-  
+# generator, for batch handle the data
 def generator(data, angle, batch_size=32):
     index = np.arange(len(data))
     batch_train = np.zeros((batch_size, 160, 320, 3), dtype = np.float32)
@@ -125,6 +129,7 @@ def generator(data, angle, batch_size=32):
             
        yield (batch_train, batch_angle)
 
+# Not used. generator, for batch handle the data
 def generator2(data, angle, batch_size=32):
     #center, left, right
     correction_rate = [0.0, 0.3, -0.3]
@@ -190,7 +195,7 @@ model.add(Conv2D(64, (3,3), activation="relu"))
 #model.add(Dropout(0.3))
 
 model.add(Flatten())
-model.add(Dense(1164))
+#model.add(Dense(1164))
 model.add(Dense(100))
 model.add(Dense(50))
 model.add(Dense(10))
@@ -204,10 +209,12 @@ validation_stepss = int(len(X_valid)/BATCH_SIZE)
 print('steps_per_epochss is: ', steps_per_epochss)
 print('validation_stepss is: ', validation_stepss)
 
+# compile the module
 model.compile(loss='mse', optimizer='adam',  metrics=['accuracy'])
 
 print("Begin to fit generator...")
 
+# fit generator
 history_object = model.fit_generator(generator(X_train, y_train, batch_size=32), steps_per_epoch=steps_per_epochss, epochs=EPOCHS, verbose=1,
                                      validation_data=generator(X_valid, y_valid, batch_size=32), validation_steps=validation_stepss )   #nb_epoch=5
 
