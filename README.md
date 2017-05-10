@@ -20,7 +20,7 @@ The goals / steps of this project are the following:
 [image2]: ./examples/center.jpg  "center img"
 [image3]: ./examples/left.jpg "left Image"
 [image4]: ./examples/right.jpg "right Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
+[image5]: ./examples/screenshot.png "data in excel"
 [image6]: ./examples/placeholder_small.png "Normal Image"
 [image7]: ./examples/placeholder_small.png "Flipped Image"
 
@@ -99,7 +99,7 @@ Training data was chosen to keep the vehicle driving on the road. I used a combi
 
 4. recovery data from side ways to center of road.
 
-Data collection example:
+Data collection example: (center, left, right)
 
 ![center][image2]  ![left][image3]  ![alt right][image4]
 
@@ -109,11 +109,53 @@ For details about how I created the training data, see the next section.
 
 ### Model Architecture and Training Strategy
 
-#### 1. Solution Design Approach
+#### 1. Data collecting Approach
 
-The overall strategy for deriving a model architecture was to ...
+The overall strategy for deriving a model architecture was to refer to "End to End Learning for Self-Driving Cars" by Nvidia, it is a great place to start. From the paper, data collection is the first important part. Per project requirement, data collection can only performed on Track 1.  I drove about 3 laps around Track 1 by keyboard control to collect data, and combined with Udacity sample data as starting point.
 
-My first step was to use a convolution neural network model similar to the ... I thought this model might be appropriate because ...
+After recording and save data, the simulator saves all the frame images in IMG folder and produces a driving_log.csv file which containts all the information needed for data preparation such as path to images folder, steering angle at each frame, throttle, brake and speed values.
+
+screen shot as below:
+![data_in_excel][image5]
+
+In this project, we only need to predict steering angle. So we will ignore throttle, brake and speed information.
+
+#### 2. Data Augmentation and preprocessing Approach
+
+From the observation in both tracks, there are many factor of road condition and environment to account for. Below are argumentation methods:
+
+1. use multiple cameras, take left and right image into training dataset, also include the left/right steering angle dataset, create adjusted steering measurements for the side camera images.
+
+2. brightness augmentation, use RGB -> HSV, and add some random noise in random image.
+
+3. flip images to augmentation data, random flip some image for good training.
+
+4. data preprocessing, include image normalizetion method.
+
+5. cropping images in NN network. 
+The cameras in the simulator capture 160 pixel by 320 pixel images.
+Not all of these pixels contain useful information, however. In the image above, the top portion of the image captures trees and hills and sky, and the bottom portion of the image captures the hood of the car.
+So crop it, the original image size (160x320), after cropping 70px on top and 25px on the bottom, new image size is (65x320).
+
+6. collecting more data.
+
+```sh
+# brightness augmentation.
+augment = .25+np.random.uniform(low=0.0, high=1.0)
+
+# flip images
+img = cv2.flip(img, 1)
+angle = -angle
+
+# normalization
+Lambda(lambda x: (x/127.5) - 1, input_shape=image_shape, output_shape=image_shape)
+
+# create adjusted steering measurements for the side camera images
+correction = 0.2 # this is a parameter to tune
+steering_left = steering_center + correction
+steering_right = steering_center - correction
+```
+
 
 In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
