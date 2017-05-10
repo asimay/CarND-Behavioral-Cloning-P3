@@ -50,9 +50,6 @@ The model.py file contains the code for training and saving the convolution neur
 
 Nvidia's End to End Learning for Self-Driving Cars architecture was implemented in Keras, this architecture is also known as pilotNet.
 
-![alt text][image1]
-
-
 ### Model Architecture and Training Strategy
 
 #### 1. An appropriate model architecture has been employed
@@ -107,7 +104,7 @@ After above all data collection, the total number of data could reach to about 1
 
 For details about how I created the training data, see the next section. 
 
-### Model Architecture and Training Strategy
+### 5. Model Architecture and Training Strategy
 
 #### 1. Data collecting Approach
 
@@ -116,6 +113,7 @@ The overall strategy for deriving a model architecture was to refer to "End to E
 After recording and save data, the simulator saves all the frame images in IMG folder and produces a driving_log.csv file which containts all the information needed for data preparation such as path to images folder, steering angle at each frame, throttle, brake and speed values.
 
 screen shot as below:
+
 ![data_in_excel][image5]
 
 In this project, we only need to predict steering angle. So we will ignore throttle, brake and speed information.
@@ -133,6 +131,7 @@ From the observation in both tracks, there are many factor of road condition and
 4. data preprocessing, include image normalizetion method.
 
 5. cropping images in NN network. 
+
 The cameras in the simulator capture 160 pixel by 320 pixel images.
 Not all of these pixels contain useful information, however. In the image above, the top portion of the image captures trees and hills and sky, and the bottom portion of the image captures the hood of the car.
 So crop it, the original image size (160x320), after cropping 70px on top and 25px on the bottom, new image size is (65x320).
@@ -156,32 +155,60 @@ steering_left = steering_center + correction
 steering_right = steering_center - correction
 ```
 
+#### 3. Network Model
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+Model is choosen for End to End Learning for Self-Driving Cars by Nvidia.The network has about 27 million connections and 250 thousand parameters.
 
-To combat the overfitting, I modified the model so that ...
+The network consists of 9 layers, including a normalization layer, 5 convolutional layers and 3 fully connected layers.
 
-Then I ... 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. Training dataset is 90% of total dataset, and validation dataset is 10% of total dataset.
 
-The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I ....
-
-At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
-
-####2. Final Model Architecture
-
-The final model architecture (model.py lines 18-24) consisted of a convolution neural network with the following layers and layer sizes ...
-
-Here is a visualization of the architecture (note: visualizing the architecture is optional according to the project rubric)
+Here is a visualization of the architecture:
 
 ![alt text][image1]
 
-####3. Creation of the Training Set & Training Process
+#### 4.Generators
 
-To capture good driving behavior, I first recorded two laps on track one using center lane driving. Here is an example image of center lane driving:
+The images captured in the car simulator are much larger than the images encountered in the Traffic Sign Classifier Project, a size of 160 x 320 x 3 compared to 32 x 32 x 3. Storing 10,000 traffic sign images would take about 30 MB but storing 10,000 simulator images would take over 1.5 GB. That's a lot of memory! Not to mention that preprocessing data can change data types from an int to a float, which can increase the size of the data by a factor of 4.
+
+so we use a generator to load data and preprocess it on the fly, in batch size portions to feed into our model .
+
+
+#### 5.Training
+
+After many trial and error in modify Nvidia model, below are my best working model.
+
+1. normalize input image to [-1, 1] range.
+
+2. 3 convolution layers are applied with 5x5 filter size but the depth increases at each layer such as 24, 36, 48. Then, 2 convolution layers are applied with 3x3 filter size and 64 depth. To avoid overfitting at convolution layers, Relu activation is applied after every convolution layers.
+
+3. data from previous layer are flatten. Then dense to 100, 50, 10 and 1.
+
+4. For optimizer, Adam optimizer is used, so that manually training the learning rate wasn't necessary.
+
+5. The final working weight was trained with 3 epoch, 0.2 adjustment angle and 32 batch size.
+
+### Testing
+
+Use the training model that was saved in model.h5. Make sure the feeding images from test track is preprocessed as well to match with final training images shape in the training model.
+
+To run test: 
+
+```
+python drive.py model.json
+```
+
+The final step was to run the simulator to see how well the car was driving around track one. 
+
+At the end of the process, the vehicle is able to drive autonomously around the track without leaving the road.
 
 ![alt text][image2]
 
-I then recorded the vehicle recovering from the left side and right sides of the road back to center so that the vehicle would learn to .... These images show what a recovery looks like starting from ... :
+![alt text][image2]
+
+![alt text][image2]
+
+:
 
 ![alt text][image3]
 ![alt text][image4]
@@ -194,11 +221,6 @@ To augment the data sat, I also flipped images and angles thinking that this wou
 ![alt text][image6]
 ![alt text][image7]
 
-Etc ....
-
-After the collection process, I had X number of data points. I then preprocessed this data by ...
 
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
